@@ -14,6 +14,7 @@ function App() {
           hasDots,
       })}
     >
+      <div className="size-4 bg-main"></div>
       <p>Ahmad Saman</p>
       <button onClick={toggleDots}>click me</button>
     </div>
