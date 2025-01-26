@@ -1,10 +1,13 @@
 /** @type {import('tailwindcss').Config} */
+import { fontFamily } from "tailwindcss/defaultTheme";
+
 module.exports = {
   darkMode: ["class"],
   content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   plugins: [require("tailwindcss-animate")],
   theme: {
     extend: {
+      fontFamily: { poppins: ["Poppins", ...fontFamily.sans] },
       colors: {
         main: "var(--main)",
         overlay: "var(--overlay)",
