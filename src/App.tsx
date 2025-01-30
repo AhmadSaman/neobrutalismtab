@@ -19,10 +19,18 @@ function getRandomTheme() {
   return colors[randomIndex];
 }
 
+function getRandomDateLang() {
+  const lang = [undefined, "ja", "es", "de", "en", "ar", "ko-KR"];
+
+  const randomIndex = Math.floor(Math.random() * lang.length);
+  return lang[randomIndex];
+}
+
 function App() {
   const {
     theme: { hasDots, type },
     toggleDots,
+
     setType,
   } = useThemeStore((state) => state);
 
@@ -31,6 +39,7 @@ function App() {
     mm: new Date().getMinutes(),
     ss: new Date().getSeconds(),
   });
+  const [dateLang, setDateLang] = useState<undefined | string>(undefined);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -46,6 +55,9 @@ function App() {
   const handleClick = () => {
     setType(getRandomTheme());
     toggleDots();
+  };
+  const handleClickDateLang = () => {
+    setDateLang(getRandomDateLang());
   };
 
   return (
@@ -74,14 +86,17 @@ function App() {
           </NumberFlowGroup>
         </Button>
         <div className="text-center flex flex-col gap-10">
-          <p className="text-xl font-semibold dark:text-main">
-            {new Date().toLocaleDateString(undefined, {
+          <button
+            onClick={handleClickDateLang}
+            className="text-xl font-semibold dark:text-main"
+          >
+            {new Date().toLocaleDateString(dateLang, {
               weekday: "short",
               year: "numeric",
               month: "short",
               day: "numeric",
             })}
-          </p>
+          </button>
           <div className="grid grid-cols-5 gap-4">
             {/* {shortcuts.map((url) => (
               <Button asChild variant="reverse" size={"icon"} className="p-1">
