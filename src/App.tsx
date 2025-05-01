@@ -3,6 +3,13 @@ import { useThemeStore } from "@/theme";
 import { cn } from "@/lib/utils";
 import NumberFlow, { NumberFlowGroup } from "@number-flow/react";
 import { Button } from "./components/ui/button";
+import { Plus, X } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./components/ui/tooltip";
 
 function getRandomTheme() {
   const colors = [
@@ -40,6 +47,10 @@ function App() {
     ss: new Date().getSeconds(),
   });
   const [dateLang, setDateLang] = useState<undefined | string>(undefined);
+
+  const [shortcuts, setShortcuts] = useState<{ title: string; url: string }[]>(
+    () => JSON.parse(localStorage.getItem("shortcuts") || "[]")
+  );
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -98,23 +109,60 @@ function App() {
             })}
           </button>
           <div className="grid grid-cols-5 gap-4">
-            {/* {shortcuts.map((url) => (
-              <Button asChild variant="reverse" size={"icon"} className="p-1">
-                <a
-                  key={url}
-                  href={url}
-                  rel="noopener noreferrer"
-                  className="size-full"
-                >
-                  <img
-                    // TODO: find better way to get favicon
-                    src={`${new URL(url).origin}/favicon.ico`}
-                    alt="favicon"
-                    className="rounded overflow-hidden"
-                  />
-                </a>
-              </Button>
-            ))} */}
+            {shortcuts.map((shortcut) => (
+              <TooltipProvider key={shortcut.url} delayDuration={500}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button asChild variant="reverse" className="p-1 w-full">
+                      <a
+                        href={shortcut.url}
+                        rel="noopener noreferrer"
+                        className="size-full"
+                      >
+                        {shortcut.title}
+                      </a>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom" sideOffset={10}>
+                    <button
+                      onClick={() => {
+                        const updatedShortcuts = shortcuts.filter(
+                          (s) => s.url !== shortcut.url
+                        );
+                        setShortcuts(updatedShortcuts);
+                        localStorage.setItem(
+                          "shortcuts",
+                          JSON.stringify(updatedShortcuts)
+                        );
+                      }}
+                      className="flex justify-center my-auto"
+                    >
+                      <X className="size-4" />
+                    </button>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ))}
+            <Button
+              onClick={() => {
+                const title = prompt("Enter shortcut title:");
+                const url = prompt("Enter shortcut URL:");
+                if (title && url) {
+                  const newShortcut = { title, url };
+                  const updatedShortcuts = [...shortcuts, newShortcut];
+                  setShortcuts(updatedShortcuts);
+                  localStorage.setItem(
+                    "shortcuts",
+                    JSON.stringify(updatedShortcuts)
+                  );
+                }
+              }}
+              variant="reverse"
+              size={"icon"}
+              className="p-1"
+            >
+              <Plus />
+            </Button>
           </div>
         </div>
       </div>
