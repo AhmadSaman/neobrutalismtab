@@ -1,10 +1,22 @@
+import { Button } from "./components/ui/button";
+
 function PrivacyPolicy() {
   return (
-    <div className="h-screen w-screen flex flex-col bg-bg font-poppins p-8">
-      <div className="m-auto max-w-3xl text-left">
-        <h1 className="text-4xl font-bold mb-6">
-          Privacy Policy for Simple Tab
-        </h1>
+    <div className="h-screen w-screen flex flex-col gap-12 justify-center bg-bg font-poppins p-8">
+      <Button
+        asChild
+        className="px-4 py-2 w-fit mx-auto bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        <a
+          href="https://chromewebstore.google.com/detail/fckmldiibgmjlfojaenadmofjfmeihik?utm_source=item-share-cb"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Download Extension
+        </a>
+      </Button>
+      <div className="mx-auto max-w-3xl text-left">
+        <h1 className="text-4xl font-bold">Privacy Policy for Simple Tab</h1>
         <p className="mb-4">
           Simple Tab is designed with your privacy in mind. We do not collect,
           store, or share any personal information.
