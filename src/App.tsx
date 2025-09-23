@@ -70,7 +70,7 @@ function App() {
   const handleClickDateLang = () => {
     setDateLang(getRandomDateLang());
   };
-
+  console.log("object");
   return (
     <div
       className={cn(
